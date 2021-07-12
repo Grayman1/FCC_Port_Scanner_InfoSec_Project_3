@@ -1,0 +1,17 @@
+[[package]]
+name = "unittest"
+version = "0.0"
+description = ""
+category = "main"
+optional = false
+python-versions = "*"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.8"
+content-hash = "33e7974a827a386dba2685124c7ce4dadb9091e4157a53eb91c09cbb02f9d817"
+
+[metadata.files]
+unittest = [
+    {file = "unittest2-0.0.0.tar.gz", hash = "sha256:1b492484bea7f68abda5fcc61412e77b6a105e5842355d630f8b75f01add3555"},
+]
