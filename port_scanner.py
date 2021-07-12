@@ -17,19 +17,12 @@ def portscan(target, port):
   sock.close()
 
 # Function if verbose is True
-def verboseResponse(target, ports=[]):
-  try:
-    hostByAddr = socket.gethostbyaddr(target)
-  except:
-    hostByAddr = None
-
-  hostByName = target 
-#  print("hostByAddr: ", hostByAddr, "hostByName: ", hostByName)
-  
-  if hostByAddr:
-    header1 = "Open Ports for {} ({})".format(hostByAddr, hostByName)
+def verboseResponse(hostAddr, hostName, ports=[]):  
+    
+  if hostName:
+    header1 = "Open Ports for {} ({})".format(hostName[0], hostAddr)
   else:
-    header1 = "Open Ports for {}".format(hostByName)
+    header1 = "Open Ports for {}".format(hostAddr)
 
   header2 = f"PORT     SERVICE\n"
   for index, port in enumerate(ports):
@@ -52,16 +45,26 @@ def get_open_ports(target, port_range, verbose=False):
 
   # ******  Check For Valid target   ******
   try:
-    socket.getaddrinfo(target, port_range[0])
+    hostAddr = socket.gethostbyname(target)
+    print("target ip_addr: ", hostAddr)
   except:
     if target[0].isdigit() and target[1].isdigit():
       return 'Error: Invalid IP address'
     else: 
       return 'Error: Invalid hostname'
 
-  #Get Hostname or address
-  if target[0].isdigit() and target[1].isdigit():
-    hostByAddr = target
+  try:
+    hostName = socket.gethostbyaddr(target)    
+  except:
+    hostName = None
+    
+
+#  hostByName = target 
+  if hostName:
+    print("host URL Name: ", hostName[0],"\n", "host address: ", hostAddr)
+  else:
+    print("host URL Name: ", hostName,"\n", "host address: ", hostAddr)
+
 
   stop = stop + 1
   for port in range(start, stop):
@@ -71,7 +74,7 @@ def get_open_ports(target, port_range, verbose=False):
         open_ports.append(port)
         print("Port {} is Open".format(port))
   
-  if verbose: return verboseResponse(target, open_ports)
+  if verbose: return verboseResponse(hostAddr, hostName, open_ports)
 
 #  print(type(open_ports))
   return(open_ports)
